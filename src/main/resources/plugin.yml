@@ -3,4 +3,4 @@ version: '1.0-SNAPSHOT'
 main: me.sentryoz.goopDropToContainer.GoopDropToContainer
 api-version: '1.20'
 depend: [Gunging_Ootilities_Plugin]
-softdepend: [MMOItems, MythicMobs]
+softdepend: [MMOItems]

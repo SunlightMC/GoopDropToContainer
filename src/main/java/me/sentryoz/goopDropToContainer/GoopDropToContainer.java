@@ -1,5 +1,6 @@
 package me.sentryoz.goopDropToContainer;
 
+import me.sentryoz.goopDropToContainer.EventListener.PickUpListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,15 +9,16 @@ public final class GoopDropToContainer extends JavaPlugin {
 
     public static GoopDropToContainer plugin;
     public boolean mmoItemsEnabled = false;
-    public boolean mythicMobsEnabeld = false;
+    public boolean debug = false;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        plugin.saveDefaultConfig();
+        checkDebug();
         checkDependenciesPlugin();
-
-
+        getServer().getPluginManager().registerEvents(new PickUpListener(), this);
     }
 
     private void checkDependenciesPlugin() {
@@ -26,31 +28,19 @@ public final class GoopDropToContainer extends JavaPlugin {
             plugin.getLogger().warning("Goop plugin not found. Disabling...");
             this.setEnabled(false);
         }
-        boolean haveItemManagerPlugin = false;
-
         // Check if have MMO Items
         Plugin mmoitems = getServer().getPluginManager().getPlugin("MMOItems");
         if (mmoitems != null) {
-            haveItemManagerPlugin = true;
             plugin.getLogger().info("MMOItems plugin found.");
-        } else {
             mmoItemsEnabled = true;
-            plugin.getLogger().info("MMOItems plugin not found.");
-        }
-        // Check if have MythicMobs
-        Plugin mythicmobs = getServer().getPluginManager().getPlugin("MythicMobs");
-        if (mythicmobs != null) {
-            haveItemManagerPlugin = true;
-            mythicMobsEnabeld = true;
-            plugin.getLogger().info("MythicMobs plugin found.");
         } else {
-            plugin.getLogger().info("MythicMobs plugin not found.");
-        }
-
-        if (!haveItemManagerPlugin) {
-            plugin.getLogger().warning("Not found any item manager plugin. Disabling...");
+            plugin.getLogger().info("MMOItems plugin not found.");
             this.setEnabled(false);
         }
+    }
+
+    private void checkDebug(){
+        debug = this.getConfig().getBoolean("debug");
     }
 
     @Override

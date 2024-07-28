@@ -6,7 +6,7 @@
 
     <groupId>me.sentryoz</groupId>
     <artifactId>GoopDropToContainer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>GoopDropToContainer</name>
@@ -26,6 +26,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -69,7 +70,6 @@
             <url>https://nexus.phoenixdevt.fr/repository/maven-public/</url>
         </repository>
     </repositories>
-
     <dependencies>
         <dependency>
             <groupId>io.papermc.paper</groupId>
@@ -82,7 +82,7 @@
             <artifactId>gunging_ootilities_plugin</artifactId>
             <version>1.10.9</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/Gunging_Ootilities_Plugin-v1.10.9_2024.07.10-099dev.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/dist/GOOP.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>io.lumine</groupId>

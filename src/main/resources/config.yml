@@ -1,0 +1,9 @@
+# Debug or not, this will spam well someone picking item xD
+Debug: false
+DropMaps:
+  #Example
+  # MaterialBag: id of personal container
+  # - MATERIAL MmoItems Type will go to that container
+  # - MOB_DROPS You can more below like this
+  MaterialBag:
+    - MATERIAL
