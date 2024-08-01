@@ -116,6 +116,7 @@ public class PickUpListener implements Listener {
                         plugin.getLogger().info("Slot " + slot + " is null/Air");
                     }
                     location.setItem(itemStack);
+                    personalContainer.saveOwnerItems(player.getUniqueId());
                     event.getItem().remove();
                     event.setCancelled(true);
                     break;
@@ -133,10 +134,12 @@ public class PickUpListener implements Listener {
                     if (itemStack.getAmount() > canHold) {
                         containerItem.setAmount(maxStack);
                         itemStack.setAmount(itemStack.getAmount() - canHold);
+                        personalContainer.saveOwnerItems(player.getUniqueId());
                         location.setItem(containerItem);
                         event.getItem().setItemStack(itemStack);
                     } else {
                         containerItem.setAmount(containerItem.getAmount() + itemStack.getAmount());
+                        personalContainer.saveOwnerItems(player.getUniqueId());
                         event.getItem().remove();
                         event.setCancelled(true);
                         break;
