@@ -58,7 +58,8 @@ public class ContainerCommand implements CommandExecutor {
                 containerList.add(itemType);
                 dropMaps.set(containerName, containerList);
                 player.sendMessage("Container '" + containerName + "' with type '" + itemType + "' has been added.");
-            } else if (containerList.contains(itemType)) { // check if container already contains the type
+            } else if (containerList.contains(itemType)) {
+                // check if container already contains the type
                 player.sendMessage("Container '" + containerName + "' already contains type '" + itemType + "'.");
                 return true;
             } else {
