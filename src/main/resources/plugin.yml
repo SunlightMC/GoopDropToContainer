@@ -10,5 +10,5 @@ commands:
     usage: /addcontainer <bag_name> <items_type>
 
   removecontainer:
-    description: Removes a bag with a specified type.
+    description: Removes a bag.
     usage: /removecontainer <bag_name>
