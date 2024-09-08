@@ -1,5 +1,6 @@
 package me.sentryoz.goopDropToContainer;
 
+import me.sentryoz.goopDropToContainer.Commands.RemoveCommand;
 import me.sentryoz.goopDropToContainer.EventListener.PickUpListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +22,7 @@ public final class GoopDropToContainer extends JavaPlugin {
         checkDependenciesPlugin();
         getServer().getPluginManager().registerEvents(new PickUpListener(), this);
         this.getCommand("addcontainer").setExecutor(new ContainerCommand());
+        this.getCommand("removecontainer").setExecutor(new RemoveCommand());
     }
 
     private void checkDependenciesPlugin() {

@@ -8,3 +8,7 @@ commands:
   addcontainer:
     description: Adds a bag with a specified type.
     usage: /addcontainer <bag_name> <items_type>
+
+  removecontainer:
+    description: Removes a bag with a specified type.
+    usage: /removecontainer <bag_name>
