@@ -12,7 +12,6 @@ import net.Indyuce.mmoitems.api.Type;
 import static me.sentryoz.goopDropToContainer.GoopDropToContainer.plugin;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class ContainerCommand implements CommandExecutor {
 
@@ -22,15 +21,15 @@ public class ContainerCommand implements CommandExecutor {
             return true;
         }
 
-
         if (command.getName().equalsIgnoreCase("addcontainer")) {
-            if (args.length != 2) {
-                player.sendMessage("Usage: /addcontainer <container_name> <items_type>");
+            if (args.length < 2 || args.length > 3) {
+                player.sendMessage("Usage: /addcontainer <container_name> <items_type> <priority>");
                 return true;
             }
 
             String containerName = args[0];
             String itemType = args[1].toUpperCase();
+            int priority = 1; // default priority
 
             // Check if itemType is a valid MMOItems type
             Type containerType = Type.get(itemType);
@@ -39,40 +38,51 @@ public class ContainerCommand implements CommandExecutor {
                 return true;
             }
 
+            // accept input if it is a number and greater than 0
+            if (args.length == 3) {
+                try {
+                    priority = Integer.parseInt(args[2]);
+                    if (priority < 1) {
+                        player.sendMessage("Priority must be greater than 0. Using default priority of 1.");
+                        priority = 1;
+                    }
+                } catch (NumberFormatException e) {
+                    player.sendMessage("Invalid priority: " + args[2] + ". Using default priority of 1.");
+                }
+            }
 
             // check if dropMaps section exists, create it if it doesn't
             ConfigurationSection dropMaps = plugin.getConfig().getConfigurationSection("DropMaps");
             if (dropMaps == null) {
-                // create new section
                 dropMaps = plugin.getConfig().createSection("DropMaps." + containerName);
             }
 
-            List<String> containerList = dropMaps.getStringList(containerName);
-
-            if (containerList == null) {
-                containerList = new ArrayList<>();
+            ConfigurationSection containerSection = plugin.getConfig().getConfigurationSection("DropMaps." + containerName);
+            if (containerSection == null) {
+                // create new section under dropMaps
+                containerSection = dropMaps.createSection(containerName);
             }
 
-            // create a new container if it doesn't exist yet
-            if (!dropMaps.contains(containerName)) {
-                containerList.add(itemType);
-                dropMaps.set(containerName, containerList);
-                player.sendMessage("Container '" + containerName + "' with type '" + itemType + "' has been added.");
-            } else if (containerList.contains(itemType)) {
-                // check if container already contains the type
-                player.sendMessage("Container '" + containerName + "' already contains type '" + itemType + "'.");
+            // check if itemType already exists in container
+            List<String> typeList = containerSection.getStringList("types");
+            if (typeList.contains(itemType)) {
+                player.sendMessage("Item type '" + itemType + "' already exists in container '" + containerName + "'.");
                 return true;
-            } else {
-                containerList.add(itemType);
-                dropMaps.set(containerName, containerList);
-                player.sendMessage("Container '" + containerName + "' with type '" + itemType + "' has been added.");
             }
+
+            typeList.add(itemType);
+            containerSection.set("priority", priority);
+            containerSection.set("types", typeList);
+
+            player.sendMessage("Item type '" + itemType + "' added to container '" + containerName + "' with priority " + priority + ".");
 
             plugin.saveConfig();
+
             return true;
 
         }
 
         return false;
     }
+
 }
