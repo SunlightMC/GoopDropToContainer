@@ -48,6 +48,7 @@ public class ContainerCommand implements CommandExecutor {
                     }
                 } catch (NumberFormatException e) {
                     player.sendMessage("Invalid priority: " + args[2] + ". Using default priority of 1.");
+                    priority = 1;
                 }
             }
 
